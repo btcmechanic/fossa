@@ -1,4 +1,3 @@
-
 // FOSSA WITH ACCESS-POINT
 
 //========================================================//
@@ -22,6 +21,10 @@ bool format = false; // true for formatting FOSSA memory, use once, then make fa
 //========================================================//
 //========================================================//
 //========================================================//
+
+#define IPAddress(...) (IPAddress((uint32_t)(__VA_ARGS__)))
+#undef Network
+extern "C" uint32_t spi_flash_get_chip_size(void);
 
 #include <WiFi.h>
 #include <WebServer.h>
@@ -273,7 +276,7 @@ void setup()
     }
     const JsonObject maRoot3 = doc[3];
     const char *maRoot3Char = maRoot3["value"];
-    const String coinmech = maRoot2Char;
+    const String coinmech = maRoot3Char;
     if(coinmech == ""){
       coinAmountFloat[0] = getValue(coinmech, ',', 0).toFloat();
       coinAmountFloat[1] = getValue(coinmech, ',', 1).toFloat();
@@ -598,6 +601,8 @@ void moneyTimerFun()
            printMessage(billAmountInt[i] + currencyATM, "Total: " + String(total) + currencyATM, "TAP SCREEN TO GET BITCOIN", TFT_WHITE, TFT_BLACK);
          }
        }
+    } else {
+      
     }
     if (SerialPort2.available()) {
       Serial.println("Reading from coin mech");
